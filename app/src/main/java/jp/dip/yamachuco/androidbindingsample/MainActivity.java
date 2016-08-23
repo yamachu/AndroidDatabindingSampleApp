@@ -12,7 +12,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UserListFragment fragment = new UserListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_fragment_container, UserListFragment.newInstance(5))
+                .commit();
     }
 }

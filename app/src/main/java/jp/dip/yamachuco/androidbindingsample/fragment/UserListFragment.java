@@ -21,6 +21,8 @@ import jp.dip.yamachuco.androidbindingsample.databinding.FragmentUserListBinding
  * A simple {@link Fragment} subclass.
  */
 public class UserListFragment extends Fragment {
+    public static String PARAM_ARRAY_SIZE = "param_array_size";
+    private int arraySize;
     private FragmentUserListBinding binding;
 
     public UserListFragment() {
@@ -30,6 +32,8 @@ public class UserListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        arraySize = args.getInt(PARAM_ARRAY_SIZE);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list, container, false);
         binding.userListRecycler.setAdapter(new UserItemCellAdapter(getMockData()));
         binding.userListRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -37,20 +41,22 @@ public class UserListFragment extends Fragment {
         return binding.getRoot();
     }
 
+    public static UserListFragment newInstance(int arraySize) {
+        UserListFragment fragment = new UserListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(PARAM_ARRAY_SIZE, arraySize);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+    
     private List<User> getMockData() {
         List<User> user_array = new ArrayList<>();
-        user_array.add(new User("hoge hoge", "hoge user"));
-        user_array.add(new User("fuga fuga", "fuga user"));
-        user_array.add(new User("piyo piyo", "piyo user"));
-        user_array.add(new User("hoge hoge", "hoge user"));
-        user_array.add(new User("fuga fuga", "fuga user"));
-        user_array.add(new User("piyo piyo", "piyo user"));
-        user_array.add(new User("hoge hoge", "hoge user"));
-        user_array.add(new User("fuga fuga", "fuga user"));
-        user_array.add(new User("piyo piyo", "piyo user"));
-        user_array.add(new User("hoge hoge", "hoge user"));
-        user_array.add(new User("fuga fuga", "fuga user"));
-        user_array.add(new User("piyo piyo", "piyo user"));
+        for (int i = 0; i < this.arraySize; i++) {
+            user_array.add(new User("hoge hoge", "hoge user"));
+            user_array.add(new User("fuga fuga", "fuga user"));
+            user_array.add(new User("piyo piyo", "piyo user"));
+        }
 
         return user_array;
     }
